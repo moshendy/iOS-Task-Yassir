@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		FA7BCB7E2E5A03DB008EB63D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FA7BCB7D2E5A03DB008EB63D /* README.md */; };
+		FA7BCB7F2E5A03DB008EB63D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = FA7BCB7C2E5A03DB008EB63D /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		FA7BCB6E2E5A0049008EB63D /* iOSTaskYassir.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSTaskYassir.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA7BCB7C2E5A03DB008EB63D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		FA7BCB7D2E5A03DB008EB63D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +39,8 @@
 		FA7BCB652E5A0049008EB63D = {
 			isa = PBXGroup;
 			children = (
+				FA7BCB7C2E5A03DB008EB63D /* .gitignore */,
+				FA7BCB7D2E5A03DB008EB63D /* README.md */,
 				FA7BCB702E5A0049008EB63D /* iOSTaskYassir */,
 				FA7BCB6F2E5A0049008EB63D /* Products */,
 			);
@@ -109,6 +118,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA7BCB7E2E5A03DB008EB63D /* README.md in Resources */,
+				FA7BCB7F2E5A03DB008EB63D /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
