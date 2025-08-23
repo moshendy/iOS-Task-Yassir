@@ -1,3 +1,10 @@
+//
+//  CharacterListViewModel.swift
+//  iOSTaskYassir
+//
+//  Created by Mohamed Shendy on 23/08/2025.
+//
+
 import Foundation
 import Combine
 import SwiftUI
