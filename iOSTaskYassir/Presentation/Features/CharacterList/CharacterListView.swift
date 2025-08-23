@@ -1,3 +1,9 @@
+//
+//  CharacterListView.swift
+//  iOSTaskYassir
+//
+//  Created by Mohamed Shendy on 23/08/2025.
+//
 import SwiftUI
 
 struct CharacterListView: View {
@@ -32,7 +38,7 @@ struct CharacterListView: View {
                 searchBar
                 
                 // Content
-                if viewModel.isLoading && viewModel.characters.isEmpty {
+                if viewModel.isLoading{
                     loadingView
                 } else if viewModel.characters.isEmpty && !viewModel.isLoading {
                     emptyStateView

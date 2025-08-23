@@ -1,3 +1,11 @@
+//
+//  CharacterRowView.swift
+//  iOSTaskYassir
+//
+//  Created by Mohamed Shendy on 23/08/2025.
+//
+
+
 import SwiftUI
 import Kingfisher
 
