@@ -26,9 +26,9 @@ class GetCharacterDetailsUseCase: GetCharacterDetailsUseCaseProtocol {
 }
 
 // MARK: - Get Character Details Use Case Factory
-//class GetCharacterDetailsUseCaseFactory {
-//    static func create() -> GetCharacterDetailsUseCase {
-//        let repository = CharacterRepositoryFactory.create()
-//        return GetCharacterDetailsUseCase(repository: repository)
-//    }
-//}
+class GetCharacterDetailsUseCaseFactory {
+    static func create() -> GetCharacterDetailsUseCase {
+        let repository = CharacterRepositoryFactory.create()
+        return GetCharacterDetailsUseCase(repository: repository)
+    }
+}

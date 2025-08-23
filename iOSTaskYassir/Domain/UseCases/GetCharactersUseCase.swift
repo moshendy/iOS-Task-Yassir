@@ -37,9 +37,9 @@ class GetCharactersUseCase: GetCharactersUseCaseProtocol {
 }
 
 // MARK: - Get Characters Use Case Factory
-//class GetCharactersUseCaseFactory {
-//    static func create() -> GetCharactersUseCase {
-//        let repository = CharacterRepositoryFactory.create()
-//        return GetCharactersUseCase(repository: repository)
-//    }
-//}
+class GetCharactersUseCaseFactory {
+    static func create() -> GetCharactersUseCase {
+        let repository = CharacterRepositoryFactory.create()
+        return GetCharactersUseCase(repository: repository)
+    }
+}
