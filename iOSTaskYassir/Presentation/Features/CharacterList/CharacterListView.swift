@@ -134,10 +134,8 @@ struct CharacterListView: View {
         }
         .listStyle(PlainListStyle())
         .onAppear {
-            // Load more when reaching the end (only when online)
-            if !viewModel.characters.isEmpty && !viewModel.isLoadingMore && viewModel.hasMorePages && !viewModel.isSearching && !viewModel.isOffline {
-                viewModel.loadMoreCharacters()
-            }
+            // Only auto-load more if we're not in initial load and user has scrolled
+            // This prevents auto-loading page 2 when the view first appears
         }
     }
 }
