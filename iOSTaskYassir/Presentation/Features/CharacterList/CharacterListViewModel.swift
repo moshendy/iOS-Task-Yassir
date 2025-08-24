@@ -26,6 +26,7 @@ class CharacterListViewModel: BaseViewModel {
     // MARK: - Private Properties
     private var currentPage = 1
     private var searchTask: Task<Void, Never>?
+    private var previousSearchText = ""
     
     // MARK: - Initialization
     init(
@@ -45,11 +46,12 @@ class CharacterListViewModel: BaseViewModel {
     
     // MARK: - Setup
     internal override func setupBindings() {
-        // Debounce search text changes
+        // Handle search text changes with proper filtering
         $searchText
+            .dropFirst() // Skip the initial empty value
             .debounce(for: .milliseconds(Int(AppTiming.searchDebounceTime * 1000)), scheduler: DispatchQueue.main)
-            .sink { [weak self] searchText in
-                self?.performSearch(searchText)
+            .sink { [weak self] currentText in
+                self?.handleSearchTextChange(currentText)
             }
             .store(in: &cancellables)
         
@@ -147,53 +149,71 @@ class CharacterListViewModel: BaseViewModel {
         DispatchQueue.main.async { [weak self] in
             self?.isSearching = false
             self?.searchText = ""
+            self?.previousSearchText = ""
         }
         loadCharacters()
     }
     
     
     // MARK: - Private Methods
+    private func handleSearchTextChange(_ currentText: String) {
+        let trimmedText = currentText.trimmingCharacters(in: .whitespacesAndNewlines)
+        // If text hasn't changed, don't search again
+        if trimmedText == previousSearchText {
+            return
+        }
+        
+        // If text is empty, reset to show all characters
+        if trimmedText.isEmpty {
+            DispatchQueue.main.async { [weak self] in
+                self?.isSearching = false
+                self?.currentPage = 1
+                self?.previousSearchText = ""
+            }
+            loadCharacters()
+            return
+        }
+        
+
+        
+        // Text has changed and is not empty, perform search
+        previousSearchText = trimmedText
+        performSearch(trimmedText)
+    }
+    
     private func performSearch(_ query: String) {
         searchTask?.cancel()
         
         searchTask = Task {
-            if query.isEmpty {
-                currentPage = 1
-                DispatchQueue.main.async { [weak self] in
-                    self?.isSearching = false
-                }
-                loadCharacters()
-            } else {
-                // Perform search
-                currentPage = 1
-                DispatchQueue.main.async { [weak self] in
-                    self?.isSearching = true
-                    self?.isLoading = true
-                    self?.errorMessage = nil
-                }
-                
-                getCharactersUseCase.execute(page: currentPage, searchQuery: query)
-                    .receive(on: DispatchQueue.main)
-                    .sink { [weak self] completion in
-                        self?.isLoading = false
-                        if case .failure(let error) = completion {
-                            // Check if this is a network error and we might have cached data
-                            if error.localizedDescription.contains("network") || error.localizedDescription.contains("internet") {
-                                self?.errorMessage = "Search requires internet connection. Showing cached results if available."
-                            } else {
-                                self?.errorMessage = error.localizedDescription
-                            }
-                        }
-                    } receiveValue: { [weak self] response in
-                        self?.characters = response.results
-                        self?.hasMorePages = response.hasMorePages
-                        // Clear any error messages when we successfully get results
-                        if !response.results.isEmpty {
-                            self?.errorMessage = nil
+            // Perform search
+            currentPage = 1
+            DispatchQueue.main.async { [weak self] in
+                self?.isSearching = true
+                self?.isLoading = true
+                self?.errorMessage = nil
+            }
+            
+            getCharactersUseCase.execute(page: currentPage, searchQuery: query)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] completion in
+                    self?.isLoading = false
+                    if case .failure(let error) = completion {
+                        // Check if this is a network error and we might have cached data
+                        if error.localizedDescription.contains("network") || error.localizedDescription.contains("network") {
+                            self?.errorMessage = "Search requires internet connection. Showing cached results if available."
+                        } else {
+                            self?.errorMessage = error.localizedDescription
                         }
                     }
-                    .store(in: &self.cancellables)
-            }
+                } receiveValue: { [weak self] response in
+                    self?.characters = response.results
+                    self?.hasMorePages = response.hasMorePages
+                    // Clear any error messages when we successfully get results
+                    if !response.results.isEmpty {
+                        self?.errorMessage = nil
+                    }
+                }
+                .store(in: &self.cancellables)
         }
     }
 }
