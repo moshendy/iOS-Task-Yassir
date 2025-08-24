@@ -10,17 +10,12 @@ import Combine
 import SwiftUI
 
 @MainActor
-class CharacterDetailsViewModel: ObservableObject {
+class CharacterDetailsViewModel: BaseViewModel {
     // MARK: - Published Properties
     @Published var character: Character?
-    @Published var isLoading = false
-    @Published var errorMessage: String?
     
     // MARK: - Dependencies
     private let getCharacterDetailsUseCase: GetCharacterDetailsUseCaseProtocol
-    
-    // MARK: - Private Properties
-    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Initialization
     init(
@@ -30,9 +25,12 @@ class CharacterDetailsViewModel: ObservableObject {
         self.character = character
         self.getCharacterDetailsUseCase = getCharacterDetailsUseCase
         
+        super.init()
+        
         if character == nil {
-            // This should not happen in normal flow, but handle it gracefully
-            errorMessage = "No character data available"
+            DispatchQueue.main.async { [weak self] in
+                self?.errorMessage = "No character data available"
+            }
         }
     }
     
@@ -40,8 +38,10 @@ class CharacterDetailsViewModel: ObservableObject {
     func loadCharacterDetails(id: CharacterID) {
         guard character == nil else { return }
         
-        isLoading = true
-        errorMessage = nil
+        DispatchQueue.main.async { [weak self] in
+            self?.isLoading = true
+            self?.errorMessage = nil
+        }
         
         getCharacterDetailsUseCase.execute(id: id)
             .receive(on: DispatchQueue.main)
@@ -56,9 +56,6 @@ class CharacterDetailsViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    func clearError() {
-        errorMessage = nil
-    }
 }
 
 // MARK: - ViewModel Factory

@@ -9,14 +9,11 @@ import Foundation
 import Combine
 import SwiftUI
 
-@MainActor
-class CharacterListViewModel: ObservableObject {
+class CharacterListViewModel: BaseViewModel {
     // MARK: - Published Properties
     @Published var characters: [Character] = []
-    @Published var isLoading = false
     @Published var isLoadingMore = false
     @Published var searchText = ""
-    @Published var errorMessage: String?
     @Published var hasMorePages = true
     @Published var isSearching = false
     @Published var isOffline = false
@@ -27,7 +24,6 @@ class CharacterListViewModel: ObservableObject {
     private let configuration: RepositoryConfiguration
     
     // MARK: - Private Properties
-    private var cancellables = Set<AnyCancellable>()
     private var currentPage = 1
     private var searchTask: Task<Void, Never>?
     
@@ -41,15 +37,17 @@ class CharacterListViewModel: ObservableObject {
         self.networkManager = networkManager
         self.configuration = configuration
         
+        super.init()
+        
         setupBindings()
         loadCharacters()
     }
     
     // MARK: - Setup
-    private func setupBindings() {
+    internal override func setupBindings() {
         // Debounce search text changes
         $searchText
-            .debounce(for: .milliseconds(Int(AppConfiguration.UI.searchDebounceTime * 1000)), scheduler: DispatchQueue.main)
+            .debounce(for: .milliseconds(Int(AppTiming.searchDebounceTime * 1000)), scheduler: DispatchQueue.main)
             .sink { [weak self] searchText in
                 self?.performSearch(searchText)
             }
@@ -76,8 +74,10 @@ class CharacterListViewModel: ObservableObject {
     func loadCharacters() {
         guard !isLoading else { return }
         
-        isLoading = true
-        errorMessage = nil
+        DispatchQueue.main.async { [weak self] in
+            self?.isLoading = true
+            self?.errorMessage = nil
+        }
         currentPage = 1
         
         getCharactersUseCase.execute(page: currentPage, searchQuery: nil)
@@ -108,11 +108,15 @@ class CharacterListViewModel: ObservableObject {
         
         // If offline, show appropriate message
         if isOffline {
-            errorMessage = "Cannot load more characters while offline. Please reconnect to load additional pages."
+            DispatchQueue.main.async { [weak self] in
+                self?.errorMessage = "Cannot load more characters while offline. Please reconnect to load additional pages."
+            }
             return
         }
         
-        isLoadingMore = true
+        DispatchQueue.main.async { [weak self] in
+            self?.isLoadingMore = true
+        }
         
         getCharactersUseCase.execute(page: currentPage + 1, searchQuery: nil)
             .receive(on: DispatchQueue.main)
@@ -140,14 +144,13 @@ class CharacterListViewModel: ObservableObject {
     
     func refresh() {
         currentPage = 1
-        isSearching = false
-        searchText = ""
+        DispatchQueue.main.async { [weak self] in
+            self?.isSearching = false
+            self?.searchText = ""
+        }
         loadCharacters()
     }
     
-    func clearError() {
-        errorMessage = nil
-    }
     
     // MARK: - Private Methods
     private func performSearch(_ query: String) {
@@ -155,16 +158,19 @@ class CharacterListViewModel: ObservableObject {
         
         searchTask = Task {
             if query.isEmpty {
-                // Reset to first page and load all characters
                 currentPage = 1
-                isSearching = false
+                DispatchQueue.main.async { [weak self] in
+                    self?.isSearching = false
+                }
                 loadCharacters()
             } else {
                 // Perform search
                 currentPage = 1
-                isSearching = true
-                isLoading = true
-                errorMessage = nil
+                DispatchQueue.main.async { [weak self] in
+                    self?.isSearching = true
+                    self?.isLoading = true
+                    self?.errorMessage = nil
+                }
                 
                 getCharactersUseCase.execute(page: currentPage, searchQuery: query)
                     .receive(on: DispatchQueue.main)
