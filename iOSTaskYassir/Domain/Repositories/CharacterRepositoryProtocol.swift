@@ -17,9 +17,6 @@ protocol CharacterRepositoryProtocol {
     // MARK: - Search Operations
     func searchCharacters(query: String) -> AnyPublisher<CharacterResponse, AppError>
     
-    // MARK: - Pagination Support
-    func hasMorePages(for currentPage: Int) -> Bool
-    func getNextPage(after currentPage: Int) -> Int?
 }
 
 // MARK: - Repository Result Types

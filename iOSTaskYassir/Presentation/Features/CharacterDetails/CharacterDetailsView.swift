@@ -61,7 +61,7 @@ struct CharacterDetailsView: View {
                 }
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 200, height: 200)
+                .frame(width: CharacterImageSize.defaultImageSize.width, height: CharacterImageSize.defaultImageSize.height)
                 .appCornerRadius(AppCornerRadius.large)
                 .appShadow(AppShadows.large)
             
@@ -76,7 +76,7 @@ struct CharacterDetailsView: View {
                     // Status indicator
                     HStack(spacing: AppSpacing.xs + 2) {
                         Circle()
-                            .fill(statusColor)
+                            .fill(character.statusColor)
                             .frame(width: AppSpacing.md - 4, height: AppSpacing.md - 4)
                         Text(character.status.value)
                             .font(AppTypography.headline)
@@ -148,7 +148,7 @@ struct CharacterDetailsView: View {
             Text(title)
                 .font(AppTypography.subheadline)
                 .foregroundColor(AppColors.secondary)
-                .frame(width: 100, alignment: .leading)
+                .frame(width: AppSpacing.md * 6.25, alignment: .leading)
             
             Text(value)
                 .font(AppTypography.subheadline)
@@ -160,15 +160,6 @@ struct CharacterDetailsView: View {
         .padding(.vertical, AppSpacing.xs)
     }
     
-    private var statusColor: Color {
-        if character.status.isAlive {
-            return AppColors.statusAlive
-        } else if character.status.isDead {
-            return AppColors.statusDead
-        } else {
-            return AppColors.statusUnknown
-        }
-    }
 }
 
 #Preview {

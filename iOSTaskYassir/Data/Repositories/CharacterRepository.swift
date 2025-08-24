@@ -68,20 +68,11 @@ class CharacterRepository: CharacterRepositoryProtocol {
             .eraseToAnyPublisher()
     }
     
-    // MARK: - Pagination Support
-    func hasMorePages(for currentPage: Int) -> Bool {
-        // This would need to be implemented based on cached pagination info
-        // For now, return true to allow pagination
-        return true
-    }
-    
-    func getNextPage(after currentPage: Int) -> Int? {
-        return currentPage + 1
-    }
     
     // MARK: - Private Helper Methods
     private func saveCharactersToCache(_ characters: [Character]) {
         realmManager.saveCharacters(characters)
+            .receive(on: DispatchQueue.main)
             .sink(
                 receiveCompletion: { _ in },
                 receiveValue: { _ in }
@@ -93,15 +84,15 @@ class CharacterRepository: CharacterRepositoryProtocol {
         return realmManager.getCharacters()
             .map { cachedCharacters in
                 // Create paginated response from cached data
-                let startIndex = (page - 1) * self.configuration.charactersPerPage
-                let endIndex = min(startIndex + self.configuration.charactersPerPage, cachedCharacters.count)
+                let startIndex = (page - 1) * AppConstants.Pagination.defaultPageSize
+                let endIndex = min(startIndex + AppConstants.Pagination.defaultPageSize, cachedCharacters.count)
                 
                 // If requesting a page beyond available cached data, return empty
                 if startIndex >= cachedCharacters.count {
                     return CharacterResponse(
                         info: PaginationInfo(
                             count: cachedCharacters.count,
-                            pages: (cachedCharacters.count + self.configuration.charactersPerPage - 1) / self.configuration.charactersPerPage,
+                            pages: (cachedCharacters.count + AppConstants.Pagination.defaultPageSize - 1) / AppConstants.Pagination.defaultPageSize,
                             next: nil,
                             prev: nil
                         ),
@@ -115,7 +106,7 @@ class CharacterRepository: CharacterRepositoryProtocol {
                 return CharacterResponse(
                     info: PaginationInfo(
                         count: cachedCharacters.count,
-                        pages: (cachedCharacters.count + self.configuration.charactersPerPage - 1) / self.configuration.charactersPerPage,
+                        pages: (cachedCharacters.count + AppConstants.Pagination.defaultPageSize - 1) / AppConstants.Pagination.defaultPageSize,
                         next: hasNextPage ? "next" : nil,
                         prev: page > 1 ? "prev" : nil
                     ),
@@ -137,7 +128,7 @@ class CharacterRepository: CharacterRepositoryProtocol {
                 return CharacterResponse(
                     info: PaginationInfo(
                         count: filteredCharacters.count,
-                        pages: 1, // Offline search returns all results on one page
+                        pages: 1, 
                         next: nil,
                         prev: nil
                     ),

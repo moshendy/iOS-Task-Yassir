@@ -63,6 +63,19 @@ struct AppTypography {
     static let caption2 = Font.caption2
 }
 
+// MARK: - Timing
+struct AppTiming {
+    static let searchDebounceTime: TimeInterval = 0.5
+    static let defaultAnimationDuration: Double = 0.3
+}
+
+
+// MARK: - Character
+struct CharacterImageSize {
+    static let defaultImageSize = CGSize(width: 200, height: 200)
+    static let thumbnailImageSize = CGSize(width: 60, height: 60)
+}
+
 // MARK: - View Extensions
 extension View {
     func appShadow(_ shadow: Shadow) -> some View {

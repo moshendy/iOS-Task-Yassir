@@ -27,8 +27,8 @@ struct CharacterRowView: View {
                 }
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 60, height: 60)
-                .clipShape(RoundedRectangle(cornerRadius: AppConfiguration.UI.imageCornerRadius))
+                .frame(width: CharacterImageSize.thumbnailImageSize.width, height: CharacterImageSize.thumbnailImageSize.height)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
             
             // Character Info
             VStack(alignment: .leading, spacing: AppSpacing.xs) {
@@ -45,7 +45,7 @@ struct CharacterRowView: View {
                 HStack(spacing: AppSpacing.xs) {
                     // Status indicator
                     Circle()
-                        .fill(statusColor)
+                        .fill(character.statusColor)
                         .frame(width: AppSpacing.sm, height: AppSpacing.sm)
                     
                     Text(character.status.value)
@@ -57,19 +57,10 @@ struct CharacterRowView: View {
             Spacer()
 
         }
-        .padding(.vertical, AppConfiguration.UI.listRowSpacing)
+        .padding(.vertical, AppSpacing.sm)
         .contentShape(Rectangle())
     }
     
-    private var statusColor: Color {
-        if character.status.isAlive {
-            return AppColors.statusAlive
-        } else if character.status.isDead {
-            return AppColors.statusDead
-        } else {
-            return AppColors.statusUnknown
-        }
-    }
 }
 
 #Preview {

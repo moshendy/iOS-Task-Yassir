@@ -98,7 +98,7 @@ class RealmManager: RealmManagerProtocol {
             }
             
             let cacheAge = Date().timeIntervalSince(oldestCharacter.timestamp)
-            let isValid = cacheAge < AppConfiguration.Cache.expirationTime
+            let isValid = cacheAge < AppConstants.Cache.defaultExpirationTime
             promise(.success(isValid))
         }
         .eraseToAnyPublisher()
