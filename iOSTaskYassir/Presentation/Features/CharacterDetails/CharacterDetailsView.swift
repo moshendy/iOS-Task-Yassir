@@ -15,7 +15,7 @@ struct CharacterDetailsView: View {
     
     init(character: Character) {
         self.character = character
-        self._viewModel = StateObject(wrappedValue: CharacterDetailsViewModelFactory.create(character: character))
+        self._viewModel = StateObject(wrappedValue: ServiceLocator.shared.createCharacterDetailsViewModel(character: character))
     }
     
     var body: some View {

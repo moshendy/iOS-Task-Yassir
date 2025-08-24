@@ -218,9 +218,3 @@ class CharacterListViewModel: BaseViewModel {
     }
 }
 
-// MARK: - ViewModel Factory
-class CharacterListViewModelFactory {
-    @MainActor static func create() -> CharacterListViewModel {
-        return CharacterListViewModel()
-    }
-}

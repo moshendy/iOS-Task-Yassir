@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct CharacterListView: View {
-    @StateObject private var viewModel = CharacterListViewModelFactory.create()
+    @StateObject private var viewModel = ServiceLocator.shared.createCharacterListViewModel()
     @StateObject private var networkManager = NetworkManager.shared
     
     var body: some View {

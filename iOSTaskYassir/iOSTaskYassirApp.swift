@@ -9,6 +9,12 @@ import SwiftUI
 
 @main
 struct iOSTaskYassirApp: App {
+    
+    init() {
+        // Configure dependency injection container
+        ServiceConfiguration.configureServices()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
