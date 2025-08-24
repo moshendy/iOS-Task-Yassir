@@ -12,7 +12,21 @@
 		FA7BCC472E5A130D008EB63D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BCC462E5A130D008EB63D /* Kingfisher */; };
 		FA7BCC482E5A1312008EB63D /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = FA7BCC402E5A12F7008EB63D /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		FA7BCC4B2E5A13B3008EB63D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FA7BCC4A2E5A13B3008EB63D /* README.md */; };
+		FA7BCD582E5B93BF008EB63D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BCD572E5B93BF008EB63D /* RealmSwift */; };
+		FA7BCD592E5B93BF008EB63D /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = FA7BCD572E5B93BF008EB63D /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		FA7BCD5C2E5B93C4008EB63D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BCD5B2E5B93C4008EB63D /* Alamofire */; };
+		FA7BCD5E2E5B93C8008EB63D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = FA7BCD5D2E5B93C8008EB63D /* Kingfisher */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FA7BCD422E5B8E13008EB63D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FA7BCB662E5A0049008EB63D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FA7BCB6D2E5A0049008EB63D;
+			remoteInfo = iOSTaskYassir;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		FA7BCC492E5A1312008EB63D /* Embed Frameworks */ = {
@@ -26,17 +40,34 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FA7BCD5A2E5B93BF008EB63D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				FA7BCD592E5B93BF008EB63D /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		FA7BCB6E2E5A0049008EB63D /* iOSTaskYassir.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSTaskYassir.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA7BCC4A2E5A13B3008EB63D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FA7BCD3E2E5B8E13008EB63D /* YassirIOSTaskTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YassirIOSTaskTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FA7BCB702E5A0049008EB63D /* iOSTaskYassir */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = iOSTaskYassir;
+			sourceTree = "<group>";
+		};
+		FA7BCD3F2E5B8E13008EB63D /* YassirIOSTaskTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = YassirIOSTaskTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +83,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FA7BCD3B2E5B8E13008EB63D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA7BCD5E2E5B93C8008EB63D /* Kingfisher in Frameworks */,
+				FA7BCD582E5B93BF008EB63D /* RealmSwift in Frameworks */,
+				FA7BCD5C2E5B93C4008EB63D /* Alamofire in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -60,6 +101,8 @@
 			children = (
 				FA7BCC4A2E5A13B3008EB63D /* README.md */,
 				FA7BCB702E5A0049008EB63D /* iOSTaskYassir */,
+				FA7BCD3F2E5B8E13008EB63D /* YassirIOSTaskTests */,
+				FA7BCD562E5B93BF008EB63D /* Frameworks */,
 				FA7BCB6F2E5A0049008EB63D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,8 +111,16 @@
 			isa = PBXGroup;
 			children = (
 				FA7BCB6E2E5A0049008EB63D /* iOSTaskYassir.app */,
+				FA7BCD3E2E5B8E13008EB63D /* YassirIOSTaskTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FA7BCD562E5B93BF008EB63D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -101,6 +152,33 @@
 			productReference = FA7BCB6E2E5A0049008EB63D /* iOSTaskYassir.app */;
 			productType = "com.apple.product-type.application";
 		};
+		FA7BCD3D2E5B8E13008EB63D /* YassirIOSTaskTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FA7BCD442E5B8E13008EB63D /* Build configuration list for PBXNativeTarget "YassirIOSTaskTests" */;
+			buildPhases = (
+				FA7BCD3A2E5B8E13008EB63D /* Sources */,
+				FA7BCD3B2E5B8E13008EB63D /* Frameworks */,
+				FA7BCD3C2E5B8E13008EB63D /* Resources */,
+				FA7BCD5A2E5B93BF008EB63D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FA7BCD432E5B8E13008EB63D /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FA7BCD3F2E5B8E13008EB63D /* YassirIOSTaskTests */,
+			);
+			name = YassirIOSTaskTests;
+			packageProductDependencies = (
+				FA7BCD572E5B93BF008EB63D /* RealmSwift */,
+				FA7BCD5B2E5B93C4008EB63D /* Alamofire */,
+				FA7BCD5D2E5B93C8008EB63D /* Kingfisher */,
+			);
+			productName = YassirIOSTaskTests;
+			productReference = FA7BCD3E2E5B8E13008EB63D /* YassirIOSTaskTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -113,6 +191,10 @@
 				TargetAttributes = {
 					FA7BCB6D2E5A0049008EB63D = {
 						CreatedOnToolsVersion = 16.4;
+					};
+					FA7BCD3D2E5B8E13008EB63D = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = FA7BCB6D2E5A0049008EB63D;
 					};
 				};
 			};
@@ -136,6 +218,7 @@
 			projectRoot = "";
 			targets = (
 				FA7BCB6D2E5A0049008EB63D /* iOSTaskYassir */,
+				FA7BCD3D2E5B8E13008EB63D /* YassirIOSTaskTests */,
 			);
 		};
 /* End PBXProject section */
@@ -149,6 +232,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FA7BCD3C2E5B8E13008EB63D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -159,7 +249,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FA7BCD3A2E5B8E13008EB63D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FA7BCD432E5B8E13008EB63D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FA7BCB6D2E5A0049008EB63D /* iOSTaskYassir */;
+			targetProxy = FA7BCD422E5B8E13008EB63D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		FA7BCB772E5A004B008EB63D /* Debug */ = {
@@ -351,6 +456,52 @@
 			};
 			name = Release;
 		};
+		FA7BCD452E5B8E13008EB63D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RB6R56A4H5;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LD_RUNPATH_SEARCH_PATHS_SHALLOW_BUNDLE_$(SHALLOW_BUNDLE))",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mshendy.YassirIOSTaskTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSTaskYassir.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iOSTaskYassir";
+			};
+			name = Debug;
+		};
+		FA7BCD462E5B8E13008EB63D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RB6R56A4H5;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LD_RUNPATH_SEARCH_PATHS_SHALLOW_BUNDLE_$(SHALLOW_BUNDLE))",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mshendy.YassirIOSTaskTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOSTaskYassir.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iOSTaskYassir";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -368,6 +519,15 @@
 			buildConfigurations = (
 				FA7BCB7A2E5A004B008EB63D /* Debug */,
 				FA7BCB7B2E5A004B008EB63D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA7BCD442E5B8E13008EB63D /* Build configuration list for PBXNativeTarget "YassirIOSTaskTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA7BCD452E5B8E13008EB63D /* Debug */,
+				FA7BCD462E5B8E13008EB63D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -413,6 +573,21 @@
 			productName = Alamofire;
 		};
 		FA7BCC462E5A130D008EB63D /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA7BCC452E5A130D008EB63D /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		FA7BCD572E5B93BF008EB63D /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA7BCC3F2E5A12F7008EB63D /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		FA7BCD5B2E5B93C4008EB63D /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA7BCC422E5A1303008EB63D /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		FA7BCD5D2E5B93C8008EB63D /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FA7BCC452E5A130D008EB63D /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
