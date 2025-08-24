@@ -1,3 +1,10 @@
+//
+//  DIContainer.swift
+//  iOSTaskYassir
+//
+//  Created by Mohamed Shendy on 24/08/2025.
+//
+
 import Foundation
 
 // MARK: - Simple DI Container
@@ -35,32 +42,30 @@ class DIContainer {
 class ServiceLocator {
     internal let container = DIContainer.shared
     
-    // MARK: - Network Services
+    // MARK: - Public Services (used by ViewModels)
     var networkManager: NetworkManager {
         container.resolve(NetworkManager.self)
     }
     
-    var characterAPIService: CharacterAPIServiceProtocol {
-        container.resolve(CharacterAPIServiceProtocol.self)
-    }
-    
-    // MARK: - Local Services
-    var realmManager: RealmManagerProtocol {
-        container.resolve(RealmManagerProtocol.self)
-    }
-    
-    // MARK: - Repositories
-    var characterRepository: CharacterRepositoryProtocol {
-        container.resolve(CharacterRepositoryProtocol.self)
-    }
-    
-    // MARK: - Use Cases
     var getCharactersUseCase: GetCharactersUseCaseProtocol {
         container.resolve(GetCharactersUseCaseProtocol.self)
     }
     
     var getCharacterDetailsUseCase: GetCharacterDetailsUseCaseProtocol {
         container.resolve(GetCharacterDetailsUseCaseProtocol.self)
+    }
+    
+    // MARK: - Internal Services (for debugging/testing)
+    internal var characterAPIService: CharacterAPIServiceProtocol {
+        container.resolve(CharacterAPIServiceProtocol.self)
+    }
+    
+    internal var realmManager: RealmManagerProtocol {
+        container.resolve(RealmManagerProtocol.self)
+    }
+    
+    internal var characterRepository: CharacterRepositoryProtocol {
+        container.resolve(CharacterRepositoryProtocol.self)
     }
     
     // MARK: - ViewModels
