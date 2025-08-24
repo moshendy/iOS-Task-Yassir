@@ -58,9 +58,3 @@ class CharacterDetailsViewModel: BaseViewModel {
     
 }
 
-// MARK: - ViewModel Factory
-class CharacterDetailsViewModelFactory {
-    @MainActor static func create(character: Character? = nil) -> CharacterDetailsViewModel {
-        return CharacterDetailsViewModel(character: character)
-    }
-}
