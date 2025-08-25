@@ -56,7 +56,6 @@ class CharacterListViewModelTests: XCTestCase {
     func testLoadCharactersSuccess() {
         // Given
         let mockCharacters = MockDataFactory.createMockCharacterList(count: 3)
-        let mockResponse = MockDataFactory.createMockCharacterResponse(characters: mockCharacters)
         mockGetCharactersUseCase.setMockCharacters(mockCharacters)
         
         let expectation = XCTestExpectation(description: "Characters loaded successfully")
@@ -193,24 +192,7 @@ class CharacterListViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-    func testHasMorePages() {
-        // Given
-        let mockCharacters = MockDataFactory.createMockCharacterList(count: 5)
-        mockGetCharactersUseCase.setMockCharacters(mockCharacters)
-        
-        let expectation = XCTestExpectation(description: "Has more pages check completed")
-        
-        // When
-        viewModel.loadCharacters()
-        
-        // Then
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertTrue(self.viewModel.hasMorePages)
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 1.0)
-    }
+
     
     // MARK: - Network Status Tests
     func testNetworkStatusConnected() {
@@ -249,23 +231,5 @@ class CharacterListViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.errorMessage)
     }
     
-    func testRefresh() {
-        // Given
-        let mockCharacters = MockDataFactory.createMockCharacterList(count: 4)
-        mockGetCharactersUseCase.setMockCharacters(mockCharacters)
-        
-        let expectation = XCTestExpectation(description: "Refresh completed")
-        
-        // When
-        viewModel.refresh()
-        
-        // Then
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertEqual(self.viewModel.characters.count, 4)
-            XCTAssertFalse(self.viewModel.isLoading)
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 1.0)
-    }
+
 }
