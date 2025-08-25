@@ -83,16 +83,12 @@ class CharacterRepository: CharacterRepositoryProtocol {
     private func getCachedCharactersResponse(page: Int) -> AnyPublisher<CharacterResponse, AppError> {
         return realmManager.getCharacters()
             .map { cachedCharacters in
-                // Create paginated response from cached data
-                let startIndex = (page - 1) * AppConstants.Pagination.defaultPageSize
-                let endIndex = min(startIndex + AppConstants.Pagination.defaultPageSize, cachedCharacters.count)
-                
-                // If requesting a page beyond available cached data, return empty
-                if startIndex >= cachedCharacters.count {
+                // Handle empty cache case
+                guard !cachedCharacters.isEmpty else {
                     return CharacterResponse(
                         info: PaginationInfo(
-                            count: cachedCharacters.count,
-                            pages: (cachedCharacters.count + AppConstants.Pagination.defaultPageSize - 1) / AppConstants.Pagination.defaultPageSize,
+                            count: 0,
+                            pages: 1,
                             next: nil,
                             prev: nil
                         ),
@@ -100,15 +96,37 @@ class CharacterRepository: CharacterRepositoryProtocol {
                     )
                 }
                 
-                let pageCharacters = Array(cachedCharacters[startIndex..<endIndex])
+                // Validate page number to prevent negative array indices
+                let validPage = max(1, page) // Ensure page is at least 1
+                
+                // Create paginated response from cached data
+                let startIndex = (validPage - 1) * AppConstants.Pagination.defaultPageSize
+                let endIndex = min(startIndex + AppConstants.Pagination.defaultPageSize, cachedCharacters.count)
+                
+                // If requesting a page beyond available cached data, return empty
+                if startIndex >= cachedCharacters.count {
+                    return CharacterResponse(
+                        info: PaginationInfo(
+                            count: cachedCharacters.count,
+                            pages: max(1, (cachedCharacters.count + AppConstants.Pagination.defaultPageSize - 1) / AppConstants.Pagination.defaultPageSize),
+                            next: nil,
+                            prev: nil
+                        ),
+                        results: []
+                    )
+                }
+                
+                // Ensure startIndex is valid (should never be negative after validation)
+                let safeStartIndex = max(0, startIndex)
+                let pageCharacters = Array(cachedCharacters[safeStartIndex..<endIndex])
                 let hasNextPage = endIndex < cachedCharacters.count
                 
                 return CharacterResponse(
                     info: PaginationInfo(
                         count: cachedCharacters.count,
-                        pages: (cachedCharacters.count + AppConstants.Pagination.defaultPageSize - 1) / AppConstants.Pagination.defaultPageSize,
+                        pages: max(1, (cachedCharacters.count + AppConstants.Pagination.defaultPageSize - 1) / AppConstants.Pagination.defaultPageSize),
                         next: hasNextPage ? "next" : nil,
-                        prev: page > 1 ? "prev" : nil
+                        prev: validPage > 1 ? "prev" : nil
                     ),
                     results: pageCharacters
                 )
