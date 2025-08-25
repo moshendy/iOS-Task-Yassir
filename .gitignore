@@ -1,0 +1,37 @@
+# Xcode
+#
+build/
+DerivedData/
+*.xcworkspace/xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.moved-aside
+*.xcuserdatad
+*.xcsettings
+
+# Swift Package Manager
+#
+.build/
+.swiftpm/
+
+
+# Realm
+#
+# Realm database files
+*.realm
+*.realm.lock
+*.realm.management
+*.realm.note
+*.realm.logs
+
+# General
+
+.DS_Store
+*.swp
+*.swo
+*.lock
+*.tmp
+
