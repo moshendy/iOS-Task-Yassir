@@ -8,6 +8,9 @@ class NetworkManager: NetworkManagerProtocol {
     static let shared = NetworkManager()
     
     @Published var isConnected = true
+    var isConnectedPublisher: AnyPublisher<Bool, Never> {
+        $isConnected.eraseToAnyPublisher()
+    }
     private let monitor = NWPathMonitor()
     private let queue = DispatchQueue(label: "NetworkMonitor")
     

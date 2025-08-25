@@ -17,44 +17,19 @@ final class GetCharactersUseCaseTests: XCTestCase {
     private var cancellables: Set<AnyCancellable>!
     
     // MARK: - Test Data
-    private let mockCharacters = [
-        Character(
-            id: CharacterID(1),
-            name: CharacterName("Rick Sanchez"),
-            status: CharacterStatus("Alive"),
-            species: CharacterSpecies("Human"),
-            type: CharacterType(""),
-            gender: CharacterGender("Male"),
-            origin: CharacterLocation(name: "Earth", url: "https://example.com/earth"),
-            location: CharacterLocation(name: "Earth", url: "https://example.com/earth"),
-            image: CharacterImage("https://example.com/rick.jpg"),
-            episodes: [EpisodeID("https://example.com/episode/1")],
-            url: CharacterURL("https://example.com/character/1"),
-            created: CharacterCreatedDate(from: "2023-01-01T00:00:00.000Z")
-        ),
-        Character(
-            id: CharacterID(2),
-            name: CharacterName("Morty Smith"),
-            status: CharacterStatus("Alive"),
-            species: CharacterSpecies("Human"),
-            type: CharacterType(""),
-            gender: CharacterGender("Male"),
-            origin: CharacterLocation(name: "Earth", url: "https://example.com/earth"),
-            location: CharacterLocation(name: "Earth", url: "https://example.com/earth"),
-            image: CharacterImage("https://example.com/morty.jpg"),
-            episodes: [EpisodeID("https://example.com/episode/1")],
-            url: CharacterURL("https://example.com/character/2"),
-            created: CharacterCreatedDate(from: "2023-01-01T00:00:00.000Z")
-        )
-    ]
+    private var mockCharacters: [Character] = []
     
-    // MARK: - Setup & Teardown
     override func setUp() {
         super.setUp()
         mockRepository = MockCharacterRepository()
         useCase = GetCharactersUseCase(repository: mockRepository)
         cancellables = Set<AnyCancellable>()
+        
+        // Create mock data using MockDataFactory
+        mockCharacters = MockDataFactory.createMockCharacterList(count: 2)
     }
+    
+
     
     override func tearDown() {
         useCase = nil
@@ -284,5 +259,39 @@ final class GetCharactersUseCaseTests: XCTestCase {
         // Then
         XCTAssertNotNil(receivedResponse, "Should use injected repository")
         XCTAssertEqual(customRepository.getCallCount, 1, "Should call injected repository")
+    }
+    
+    // MARK: - Call Tracking Tests
+    
+    func testExecute_TracksRepositoryCalls() {
+        // Given
+        mockRepository.setMockCharacters(mockCharacters)
+        
+        // When
+        useCase.execute(page: 1, searchQuery: nil)
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { _ in }
+            )
+            .store(in: &cancellables)
+        
+        // Then
+        XCTAssertEqual(mockRepository.getCallCount, 1)
+    }
+    
+    func testExecute_TracksSearchCalls() {
+        // Given
+        mockRepository.setMockCharacters(mockCharacters)
+        
+        // When
+        useCase.execute(page: 1, searchQuery: "Rick")
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { _ in }
+            )
+            .store(in: &cancellables)
+        
+        // Then
+        XCTAssertEqual(mockRepository.searchCharactersCallCount, 1)
     }
 }

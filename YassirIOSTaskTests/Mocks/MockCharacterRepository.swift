@@ -18,6 +18,8 @@ class MockCharacterRepository: CharacterRepositoryProtocol {
     var shouldFail: Bool = false
     var mockError: AppError?
     var getCallCount: Int = 0
+    var getCharacterDetailsCallCount: Int = 0
+    var searchCharactersCallCount: Int = 0
     
     // MARK: - Mock Methods
     func getCharacters(page: Int, searchQuery: String?) -> AnyPublisher<CharacterResponse, AppError> {
@@ -28,14 +30,11 @@ class MockCharacterRepository: CharacterRepositoryProtocol {
                 .eraseToAnyPublisher()
         }
         
-        let response = CharacterResponse(
-            info: PaginationInfo(
-                count: mockCharacters.count,
-                pages: 2, // Simulate multiple pages
-                next: "https://api.example.com/characters?page=2", // Simulate next page
-                prev: nil
-            ),
-            results: mockCharacters
+        // Use MockDataFactory for consistency
+        let response = MockDataFactory.createMockCharacterResponse(
+            characters: mockCharacters,
+            page: page,
+            totalPages: 2
         )
         
         return Just(response)
@@ -44,6 +43,8 @@ class MockCharacterRepository: CharacterRepositoryProtocol {
     }
     
     func getCharacterDetails(id: CharacterID) -> AnyPublisher<Character, AppError> {
+        getCharacterDetailsCallCount += 1
+        
         if shouldFail {
             return Fail(error: mockError ?? .networkError("Mock repository failure"))
                 .eraseToAnyPublisher()
@@ -60,19 +61,18 @@ class MockCharacterRepository: CharacterRepositoryProtocol {
     }
     
     func searchCharacters(query: String) -> AnyPublisher<CharacterResponse, AppError> {
+        searchCharactersCallCount += 1
+        
         if shouldFail {
             return Fail(error: mockError ?? .networkError("Mock repository failure"))
                 .eraseToAnyPublisher()
         }
         
-        let response = CharacterResponse(
-            info: PaginationInfo(
-                count: mockCharacters.count,
-                pages: 2, // Simulate multiple pages
-                next: "https://api.example.com/characters?page=2", // Simulate next page
-                prev: nil
-            ),
-            results: mockCharacters
+        // Use MockDataFactory for consistency
+        let response = MockDataFactory.createMockCharacterResponse(
+            characters: mockCharacters,
+            page: 1,
+            totalPages: 2
         )
         
         return Just(response)
@@ -100,5 +100,7 @@ class MockCharacterRepository: CharacterRepositoryProtocol {
         shouldFail = false
         mockError = nil
         getCallCount = 0
+        getCharacterDetailsCallCount = 0
+        searchCharactersCallCount = 0
     }
 }

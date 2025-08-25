@@ -17,20 +17,7 @@ final class GetCharacterDetailsUseCaseTests: XCTestCase {
     private var cancellables: Set<AnyCancellable>!
     
     // MARK: - Test Data
-    private let mockCharacter = Character(
-        id: CharacterID(1),
-        name: CharacterName("Rick Sanchez"),
-        status: CharacterStatus("Alive"),
-        species: CharacterSpecies("Human"),
-        type: CharacterType(""),
-        gender: CharacterGender("Male"),
-        origin: CharacterLocation(name: "Earth", url: "https://example.com/earth"),
-        location: CharacterLocation(name: "Earth", url: "https://example.com/earth"),
-        image: CharacterImage("https://example.com/rick.jpg"),
-        episodes: [EpisodeID("https://example.com/episode/1")],
-        url: CharacterURL("https://example.com/character/1"),
-        created: CharacterCreatedDate(from: "2023-01-01T00:00:00.000Z")
-    )
+    private var mockCharacter: Character!
     
     // MARK: - Setup & Teardown
     override func setUp() {
@@ -38,6 +25,9 @@ final class GetCharacterDetailsUseCaseTests: XCTestCase {
         mockRepository = MockCharacterRepository()
         useCase = GetCharacterDetailsUseCase(repository: mockRepository)
         cancellables = Set<AnyCancellable>()
+        
+        // Create mock data using MockDataFactory
+        mockCharacter = MockDataFactory.createMockCharacter()
     }
     
     override func tearDown() {
@@ -228,6 +218,24 @@ final class GetCharacterDetailsUseCaseTests: XCTestCase {
         // Then
         XCTAssertNotNil(receivedCharacter, "Should use injected repository")
         XCTAssertEqual(receivedCharacter?.id.value, 1)
+    }
+    
+    // MARK: - Call Tracking Tests
+    
+    func testExecute_TracksGetCharacterDetailsCalls() {
+        // Given
+        mockRepository.setMockCharacter(mockCharacter)
+        
+        // When
+        useCase.execute(id: CharacterID(1))
+            .sink(
+                receiveCompletion: { _ in },
+                receiveValue: { _ in }
+            )
+            .store(in: &cancellables)
+        
+        // Then
+        XCTAssertEqual(mockRepository.getCharacterDetailsCallCount, 1)
     }
     
 }

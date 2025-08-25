@@ -9,10 +9,10 @@ protocol CharacterAPIServiceProtocol {
 
 // MARK: - Character API Service Implementation
 class CharacterAPIService: CharacterAPIServiceProtocol {
-    private let networkManager: NetworkManager
+    private let networkManager: any NetworkManagerProtocol
     private let baseURL = AppConfiguration.API.baseURL
     
-    init(networkManager: NetworkManager = NetworkManager.shared) {
+    init(networkManager: any NetworkManagerProtocol = NetworkManager.shared) {
         self.networkManager = networkManager
     }
     
@@ -23,12 +23,12 @@ class CharacterAPIService: CharacterAPIServiceProtocol {
         }
         
         let url = "\(baseURL)/character"
-        return networkManager.request(url, parameters: parameters)
+        return networkManager.request(url, method: .get, parameters: parameters)
     }
     
     func getCharacterDetails(id: Int) -> AnyPublisher<CharacterDTO, AppError> {
         let url = "\(baseURL)/character/\(id)"
-        return networkManager.request(url)
+        return networkManager.request(url, method: .get, parameters: nil)
     }
 }
 

@@ -20,7 +20,7 @@ class CharacterListViewModel: BaseViewModel {
     
     // MARK: - Dependencies
     private let getCharactersUseCase: GetCharactersUseCaseProtocol
-    private let networkManager: NetworkManager
+    private let networkManager: any NetworkManagerProtocol
     private let configuration: RepositoryConfiguration
     
     // MARK: - Private Properties
@@ -31,7 +31,7 @@ class CharacterListViewModel: BaseViewModel {
     // MARK: - Initialization
     init(
         getCharactersUseCase: GetCharactersUseCaseProtocol = GetCharactersUseCaseFactory.create(),
-        networkManager: NetworkManager = NetworkManager.shared,
+        networkManager: any NetworkManagerProtocol = NetworkManager.shared,
         configuration: RepositoryConfiguration = .default
     ) {
         self.getCharactersUseCase = getCharactersUseCase
@@ -56,7 +56,7 @@ class CharacterListViewModel: BaseViewModel {
             .store(in: &cancellables)
         
         // Monitor network connectivity
-        networkManager.$isConnected
+        networkManager.isConnectedPublisher
             .sink { [weak self] isConnected in
                 self?.isOffline = !isConnected
                 // Only show offline message if we're not currently displaying cached search results
