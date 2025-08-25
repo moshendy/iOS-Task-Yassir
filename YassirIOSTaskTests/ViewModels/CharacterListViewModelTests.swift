@@ -78,21 +78,30 @@ class CharacterListViewModelTests: XCTestCase {
     func testLoadCharactersFailure() {
         // Given
         let mockError = MockDataFactory.createMockNetworkError()
-        mockGetCharactersUseCase.setMockError(mockError)
+        
+        // Create a fresh mock and ViewModel for this test to avoid initialization issues
+        let testMock = MockGetCharactersUseCase()
+        testMock.setMockError(mockError)
+        
+        let testViewModel = CharacterListViewModel(
+            getCharactersUseCase: testMock,
+            networkManager: mockNetworkManager,
+            configuration: .default
+        )
         
         let expectation = XCTestExpectation(description: "Characters load failed")
         
         // When
-        viewModel.loadCharacters()
+        testViewModel.loadCharacters()
         
         // Then
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertEqual(self.viewModel.characters.count, 0)
-            XCTAssertFalse(self.viewModel.isLoading)
+            XCTAssertEqual(testViewModel.characters.count, 0)
+            XCTAssertFalse(testViewModel.isLoading)
             // The ViewModel shows a specific message for network errors
-            XCTAssertNotNil(self.viewModel.errorMessage)
+            XCTAssertNotNil(testViewModel.errorMessage)
             // Check for the exact message the ViewModel shows
-            XCTAssertEqual(self.viewModel.errorMessage, "No internet connection. Showing cached data if available.")
+            XCTAssertEqual(testViewModel.errorMessage, "No internet connection. Showing cached data if available.")
             expectation.fulfill()
         }
         
