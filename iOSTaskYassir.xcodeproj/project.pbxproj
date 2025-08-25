@@ -102,7 +102,6 @@
 				FA7BCC4A2E5A13B3008EB63D /* README.md */,
 				FA7BCB702E5A0049008EB63D /* iOSTaskYassir */,
 				FA7BCD3F2E5B8E13008EB63D /* YassirIOSTaskTests */,
-				FA7BCD562E5B93BF008EB63D /* Frameworks */,
 				FA7BCB6F2E5A0049008EB63D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -114,13 +113,6 @@
 				FA7BCD3E2E5B8E13008EB63D /* YassirIOSTaskTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		FA7BCD562E5B93BF008EB63D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

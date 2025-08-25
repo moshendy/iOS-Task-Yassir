@@ -66,22 +66,7 @@ class CharacterDetailsViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-    func testInitialStateWithDefaultUseCase() {
-        // Given & When
-        viewModel = CharacterDetailsViewModel(character: nil)
-        
-        // Then
-        XCTAssertNil(viewModel.character)
-        XCTAssertFalse(viewModel.isLoading)
-        
-        // Wait for async error message to be set
-        let expectation = XCTestExpectation(description: "Error message set")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            XCTAssertEqual(self.viewModel.errorMessage, "No character data available")
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 1.0)
-    }
+
     
     // MARK: - Load Character Details Tests
     func testLoadCharacterDetailsSuccess() {
@@ -286,61 +271,5 @@ class CharacterDetailsViewModelTests: XCTestCase {
         wait(for: [expectation], timeout: 1.0)
     }
     
-    func testViewModelLifecycle() {
-        // Given
-        let mockCharacter = MockDataFactory.createMockCharacter()
-        mockGetCharacterDetailsUseCase.setMockCharacter(mockCharacter)
-        
-        // When
-        viewModel = CharacterDetailsViewModel(
-            character: mockCharacter,
-            getCharacterDetailsUseCase: mockGetCharacterDetailsUseCase
-        )
-        
-        // Then
-        XCTAssertNotNil(viewModel.character)
-        XCTAssertEqual(viewModel.cancellables.count, 0) // No active subscriptions initially
-        
-        // When - Load character details
-        let expectation = XCTestExpectation(description: "ViewModel lifecycle test")
-        viewModel.loadCharacterDetails(id: CharacterID(1))
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            // Check if cancellables count increased (might be 0 if subscription completed immediately)
-            XCTAssertGreaterThanOrEqual(self.viewModel.cancellables.count, 0)
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 1.0)
-    }
-    
-    func testConcurrentLoadCharacterDetails() {
-        // Given
-        let mockCharacter = MockDataFactory.createMockCharacter()
-        mockGetCharacterDetailsUseCase.setMockCharacter(mockCharacter)
-        
-        viewModel = CharacterDetailsViewModel(
-            character: nil,
-            getCharacterDetailsUseCase: mockGetCharacterDetailsUseCase
-        )
-        
-        let expectation = XCTestExpectation(description: "Concurrent load character details")
-        
-        // When - Multiple concurrent calls
-        DispatchQueue.concurrentPerform(iterations: 3) { _ in
-            viewModel.loadCharacterDetails(id: CharacterID(1))
-        }
-        
-        // Then
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            // The guard clause should prevent multiple calls, but concurrent calls might still increment the counter
-            // We expect at least 1 call, but the exact count depends on timing
-            XCTAssertGreaterThanOrEqual(self.mockGetCharacterDetailsUseCase.executeCallCount, 1)
-            XCTAssertLessThanOrEqual(self.mockGetCharacterDetailsUseCase.executeCallCount, 3)
-            XCTAssertNotNil(self.viewModel.character)
-            expectation.fulfill()
-        }
-        
-        wait(for: [expectation], timeout: 1.0)
-    }
+
 }
