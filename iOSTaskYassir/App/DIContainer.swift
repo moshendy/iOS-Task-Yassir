@@ -43,8 +43,8 @@ class ServiceLocator {
     internal let container = DIContainer.shared
     
     // MARK: - Public Services (used by ViewModels)
-    var networkManager: NetworkManager {
-        container.resolve(NetworkManager.self)
+    var networkManager: any NetworkManagerProtocol {
+        container.resolve((any NetworkManagerProtocol).self)
     }
     
     var getCharactersUseCase: GetCharactersUseCaseProtocol {

@@ -27,14 +27,11 @@ class MockGetCharactersUseCase: GetCharactersUseCaseProtocol {
                 .eraseToAnyPublisher()
         }
         
-        let response = CharacterResponse(
-            info: PaginationInfo(
-                count: mockCharacters.count,
-                pages: 2, // Simulate multiple pages
-                next: "https://api.example.com/characters?page=2", // Simulate next page
-                prev: nil
-            ),
-            results: mockCharacters
+        // Use MockDataFactory for consistency
+        let response = MockDataFactory.createMockCharacterResponse(
+            characters: mockCharacters,
+            page: page,
+            totalPages: 2
         )
         
         return Just(response)

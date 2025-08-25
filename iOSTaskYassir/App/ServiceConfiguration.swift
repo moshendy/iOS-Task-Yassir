@@ -15,7 +15,7 @@ struct ServiceConfiguration {
         let container = DIContainer.shared
         
         // Register all services
-        container.register(NetworkManager.self, instance: NetworkManager.shared)
+        container.register((any NetworkManagerProtocol).self, instance: NetworkManager.shared)
         container.register(CharacterAPIServiceProtocol.self, instance: CharacterAPIServiceFactory.create())
         container.register(RealmManagerProtocol.self, instance: RealmManagerFactory.create())
         container.register(CharacterRepositoryProtocol.self, instance: CharacterRepositoryFactory.create())

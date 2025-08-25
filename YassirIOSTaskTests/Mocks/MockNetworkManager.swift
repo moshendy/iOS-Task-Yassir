@@ -11,15 +11,19 @@ import Alamofire
 @testable import iOSTaskYassir
 
 // MARK: - Mock Network Manager
-class MockNetworkManager: NetworkManager {
+class MockNetworkManager: NetworkManagerProtocol, ObservableObject {
     
     // MARK: - Mock Properties
+    @Published var isConnected: Bool = true
+    var isConnectedPublisher: AnyPublisher<Bool, Never> {
+        $isConnected.eraseToAnyPublisher()
+    }
     var shouldFail: Bool = false
     var mockResponse: Any?
     var mockError: AppError?
     
     // MARK: - Mock Methods
-    override func request<T: Codable>(_ url: String, method: HTTPMethod = .get, parameters: Parameters? = nil) -> AnyPublisher<T, AppError> {
+    func request<T: Codable>(_ url: String, method: HTTPMethod = .get, parameters: Parameters? = nil) -> AnyPublisher<T, AppError> {
         if shouldFail {
             return Fail(error: mockError ?? .networkError("Mock network failure"))
                 .eraseToAnyPublisher()
@@ -36,6 +40,14 @@ class MockNetworkManager: NetworkManager {
             .eraseToAnyPublisher()
     }
     
+    func startMonitoring() {
+        // No-op for mock
+    }
+    
+    func stopMonitoring() {
+        // No-op for mock
+    }
+    
     // MARK: - Mock Setup Methods
     func setMockResponse<T>(_ response: T) {
         mockResponse = response
@@ -47,14 +59,13 @@ class MockNetworkManager: NetworkManager {
     }
     
     func setConnected(_ connected: Bool) {
-        // Override the published property
-        super.isConnected = connected
+        isConnected = connected
     }
     
     func reset() {
         shouldFail = false
         mockResponse = nil
         mockError = nil
-        super.isConnected = true
+        isConnected = true
     }
 }
