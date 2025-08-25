@@ -1,6 +1,6 @@
 # Rick and Morty Character App
 
-A modern iOS application built with SwiftUI that demonstrates clean architecture, MVVM pattern, and modern development practices. The app fetches character data from the Rick and Morty API with offline caching support.
+A modern iOS application built with SwiftUI that demonstrates clean architecture, MVVM pattern, and modern development practices. The app fetches character data from the Rick and Morty API with offline caching support and comprehensive testing infrastructure.
 
 ## Features
 
@@ -9,6 +9,7 @@ A modern iOS application built with SwiftUI that demonstrates clean architecture
 - **Character Details**: Comprehensive character information view
 - **Offline Support**: Network-first caching strategy using Realm
 - **Network Detection**: Real-time connectivity status monitoring
+- **Comprehensive Testing**: tests covering unit, integration, and UI testing
 
 ## Technical Requirements
 
@@ -72,14 +73,39 @@ YassirIOSTask/
 │   ├── Components/             # Reusable UI components
 │   ├── DesignSystem/           # Design system components
 │   └── Features/               # Feature-specific views
+├── iOSTaskYassirTests/         # Unit test target
+│   ├── ViewModels/            # ViewModel tests
+│   ├── UseCases/              # Use case tests
+│   ├── Repositories/          # Repository tests
+│   ├── Mocks/                 # Mock objects for testing
+│   └── Helpers/               # Test helper utilities
+└── iOSTaskYassirUITests/      # UI test target
+    ├── CharacterListView/     # List view UI tests
+    ├── CharacterDetailsView/  # Details view UI tests
 ```
+
+## Testing Infrastructure
+
+This project includes a comprehensive testing strategy covering all architectural layers:
+
+### Test Organization
+
+#### **Unit Tests  - `iOSTaskYassirTests` target**
+- **ViewModels **: Test presentation logic and user interactions
+- **Use Cases **: Test business logic and rules
+- **Repositories **: Test data access and caching logic
+
+#### **UI Tests  - `iOSTaskYassirUITests` target**
+- **CharacterListView **: Test list view functionality and search
+- **CharacterDetailsView **: Test details view navigation and display
+
 
 ## Building and Running
 
 ### Prerequisites
 
-1. Ensure you have Xcode 14.0 or later installed
-2. Make sure you have iOS 15.0+ simulator or device
+1. Ensure you have Xcode 15.0 or later installed
+2. Make sure you have iOS 17.0+ simulator or device
 
 ### Steps
 
@@ -98,9 +124,11 @@ YassirIOSTask/
    - Press `Cmd + R` or click the Run button
    - The app should launch and start loading characters
 
+
 ### Troubleshooting
 
 - **Build Errors**: Ensure all dependencies are properly resolved
+- **Test Failures**: Check that mock data is properly configured
 - **Network Issues**: Check your internet connection
 - **Simulator Issues**: Try resetting the simulator (Device → Erase All Content and Settings)
 
@@ -137,15 +165,12 @@ The app monitors network connectivity in real-time:
 - **Disconnected**: Shows cached data with connectivity warning
 - **Reconnection**: Automatically resumes normal operation
 
-
-
 ## Performance Considerations
 
 - **Image Caching**: Kingfisher handles image loading and caching
 - **Pagination**: Loads 20 characters at a time to minimize memory usage
 - **Debounced Search**: 500ms delay to reduce API calls
 - **Background Processing**: Network operations don't block UI
-
 
 ## Technical Decisions
 
@@ -170,5 +195,11 @@ The app monitors network connectivity in real-time:
 - **Offline Capability**: Works without network connection
 - **Automatic Updates**: Reactive data binding
 
+### Why Comprehensive Testing?
 
-**Note**: This app demonstrates modern iOS development practices and is intended as a portfolio piece showcasing clean architecture, MVVM pattern, and best practices in SwiftUI development.
+- **Quality Assurance**: Ensures app behavior matches requirements
+- **Regression Prevention**: Catches bugs before they reach production
+- **Refactoring Safety**: Allows confident code changes and improvements
+- **Documentation**: Tests serve as living documentation of app behavior
+- **Performance Monitoring**: Tracks app performance over time
+
